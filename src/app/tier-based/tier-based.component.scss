@@ -1,0 +1,9 @@
+.is-invalid {
+  border: 1px solid red;
+}
+.form-control,
+.form-select {
+  &.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+}

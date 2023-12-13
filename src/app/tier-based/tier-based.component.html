@@ -1,0 +1,45 @@
+<div class="tier-based-component">
+  <form [formGroup]="tierBasedForm">
+    <div formArrayName="price_tiers" class="from-group">
+      <table *ngIf="tierBasedForm.get('price_tiers') as priceTiers">
+        <thead>
+          <tr>
+            <th *ngFor="let tier of tierBasedControls(); let i = index" [formArrayName]="i">
+              {{ tier.get('tier_label')?.value }}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let tier of tierBasedControls(); let i = index" [formArrayName]="i">
+              <input class="form-control" type="number" formControlName="tier_low" placeholder="Price Tier Low">
+              <input class="form-control" type="number" formControlName="tier_high" placeholder="Price Tier High">
+            </td>
+          </tr>
+          <tr>
+            <td *ngFor="let tier of tierBasedControls(); let i = index" [formArrayName]="i">
+              <select class="form-select mb-2" formControlName="discount_type"  (change)="onDiscountTypeChange(tier)">
+                <option value="">Select Discount Type</option>
+                <option value="Value">Value</option>
+                <option value="Percent">Percent</option>
+              </select>
+              <span>
+                <input class="form-control mb-2" [ngClass]="{'ng-invalid' : tier.get('discount_type')?.errors != null,'ng-touched' : tier.get('discount_type')?.touched}" *ngIf="!['Value','Percent'].includes(tier.get('discount_type')?.value)" type="text" placeholder="Select Discount type" disabled>
+                <input class="form-control mb-2" *ngIf="tier.get('discount_type')?.value == 'Value'" type="number" formControlName="discount_val" placeholder="Amount">
+                <input class="form-control mb-2" *ngIf="tier.get('discount_type')?.value == 'Percent'" type="number" formControlName="discount_pct" placeholder="Percent">
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td *ngFor="let tier of tierBasedControls(); let i = index" [formArrayName]="i">
+              <button class="btn btn-danger" type="button" (click)="deleteTier(i)">Delete</button>
+            </td>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn btn-primary" type="submit" (click)="addTier()" [disabled]="tierBasedForm.invalid">Add</button>
+    <button class="btn btn-primary mx-2" type="submit" (click)="validateForm()" >Submit</button>
+  </form>
+  <pre>
+    {{tierBasedForm.value | json}}
+  </pre>
+</div>
