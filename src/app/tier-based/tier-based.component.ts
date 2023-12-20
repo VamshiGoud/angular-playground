@@ -71,6 +71,8 @@ export class TierBasedComponent implements OnInit {
     // });
     this.tierBasedForm = this.createFormFromJson(this.fb,this.tiers);
     this.tierBasedForm.setControl('price_tiers', this.setPriceTiers(this.tiers.price_tiers));
+    this.tierBasedForm.get('price_tiers')?.setValidators(this.overlappingRangeValidator);
+    this.tierBasedForm.get('price_tiers')?.updateValueAndValidity();
   }
 
   setPriceTiers(price_tiers: PriceTier[]): FormArray {

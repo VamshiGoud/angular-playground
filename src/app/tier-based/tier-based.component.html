@@ -40,6 +40,6 @@
     <button class="btn btn-primary mx-2" type="submit" (click)="validateForm()" >Submit</button>
   </form>
   <pre>
-    {{tierBasedForm.value | json}}
+    {{tierBasedForm.get('price_tiers').errors | json}}
   </pre>
 </div>
